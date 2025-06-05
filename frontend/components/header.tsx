@@ -17,6 +17,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { BookOpenIcon, ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid';
+import LoginScreen from './login';
 
 // Esse vai sair, os dados vão vir do banco de dados
 const headeritems = [
@@ -36,15 +37,11 @@ export default function Header() {
 
   return (
     <header className="bg-white">
-      <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+      <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between py-1 lg:px-8">
         <div className="flex lg:flex-1">
-          <a href="/" className="-m-1.5 p-1.5">
+          <a href="/" className="">
             <span className="sr-only">Personalize Já!</span>
-            <img
-              alt=""
-              src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-              className="h-8 w-auto"
-            />
+            <img src="/logo.svg" alt="Personalize Já!" className="h-20 w-auto" />
           </a>
         </div>
         <div className="flex lg:hidden">
@@ -113,7 +110,8 @@ export default function Header() {
           </a>
         </PopoverGroup>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <button className="flex items-center gap-x-2 text-sm/6 font-semibold text-gray-900 hover:text-yellow-500 cursor-pointer">
+          <button 
+          className="flex items-center gap-x-2 text-sm/6 font-semibold text-gray-900 hover:text-yellow-500 cursor-pointer">
             <div>
               <UserRound aria-hidden="true" className="size-6 "/>
             </div>
