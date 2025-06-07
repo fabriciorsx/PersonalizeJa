@@ -1,18 +1,7 @@
-'use client'
-
-import { useState } from "react";
-import LoginScreen from "@/components/login";
-
-export default function Home({}) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
+export default function Home() {
   return (
-    <div>
-      <LoginScreen
-        isVisible={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        size="md">
-      </LoginScreen>
-    </div>
-);
+      <div className="p-8">
+        <h1 className="text-2xl mb-4">Página</h1>
+      </div>
+  );
 }

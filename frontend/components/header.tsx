@@ -1,6 +1,8 @@
 'use client'
 import { UserRound } from 'lucide-react';
 import { useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import {
   Dialog,
   DialogPanel,
@@ -17,7 +19,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { BookOpenIcon, ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid';
-import LoginScreen from './login';
+import { useLogin } from './login';
 
 // Esse vai sair, os dados vão vir do banco de dados
 const headeritems = [
@@ -33,16 +35,17 @@ const callsToAction = [
 ]
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { openLogin } = useLogin();
 
   return (
     <header className="bg-white">
       <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between py-1 lg:px-8">
         <div className="flex lg:flex-1">
-          <a href="/" className="">
+          <Link href="/" className="">
             <span className="sr-only">Personalize Já!</span>
-            <img src="/logo.svg" alt="Personalize Já!" className="h-20 w-auto" />
-          </a>
+            <Image src="/logo.svg" alt="Personalize Já!" className="h-20 w-auto" width={80} height={80} />
+          </Link>
         </div>
         <div className="flex lg:hidden">
           <button
@@ -86,14 +89,14 @@ export default function Header() {
               </div>
               <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
                 {callsToAction.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
                     href={item.href}
                     className="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100"
                   >
                     <item.icon aria-hidden="true" className="size-5 flex-none text-gray-400" />
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </PopoverPanel>
@@ -105,32 +108,37 @@ export default function Header() {
           <a href="#" className="text-sm/6 font-semibold text-gray-900">
             Quem somos
           </a>
-          <a href="/contato" className="text-sm/6 font-semibold text-gray-900">
+          <Link href="/contato" className="text-sm/6 font-semibold text-gray-900">
             Contato
-          </a>
+          </Link>
         </PopoverGroup>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <button 
-          className="flex items-center gap-x-2 text-sm/6 font-semibold text-gray-900 hover:text-yellow-500 cursor-pointer">
+          <button
+            onClick={openLogin
+            }
+            className="flex items-center gap-x-2 text-sm/6 font-semibold text-gray-900 hover:text-yellow-500 cursor-pointer"
+          >
             <div>
-              <UserRound aria-hidden="true" className="size-6 "/>
+              <UserRound aria-hidden="true" className="size-6 " />
             </div>
-                    Entre ou cadastre-se
-                </button>
+            Entre ou cadastre-se
+          </button>
         </div>
       </nav>
       <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
         <div className="fixed inset-0 z-10" />
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="/" className="-m-1.5 p-1.5">
+            <Link href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Personalize Já!</span>
-              <img
-                alt=""
-                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+              <Image
+                alt="Personalize Já!"
+                src="/logo.svg"
                 className="h-8 w-auto"
+                width={32}
+                height={32}
               />
-            </a>
+            </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
@@ -181,7 +189,15 @@ export default function Header() {
                 </a>
               </div>
               <div className="py-6">
-                
+                <button
+                  onClick={openLogin}
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50 w-full text-left"
+                >
+                  <div className="flex items-center gap-x-2">
+                    <UserRound aria-hidden="true" className="size-6" />
+                    Entre ou cadastre-se
+                  </div>
+                </button>
               </div>
             </div>
           </div>
