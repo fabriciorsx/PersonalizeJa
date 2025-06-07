@@ -1,5 +1,6 @@
 'use client'
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react';
 import { X } from 'lucide-react';
 
 interface LoginContextType {
@@ -46,8 +47,6 @@ interface LoginScreenProps {
 
 const LoginScreen = ({ children, size = 'md' }: LoginScreenProps) => {
   const { isVisible, closeLogin } = useLogin();
-  
-  if (!isVisible) return null;
 
   const sizeClasses: Record<string, string> = {
     sm: 'max-w-md',
@@ -57,27 +56,46 @@ const LoginScreen = ({ children, size = 'md' }: LoginScreenProps) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div 
-        className="fixed inset-0 bg-black opacity-20 transition-opacity"
-        onClick={closeLogin}
-      />
-      
-      <div className={`relative bg-white rounded-lg shadow-xl ${sizeClasses[size]} w-full mx-4 max-h-[90vh] overflow-hidden`}>
-        <div className="flex items-center justify-between p-4 border-b">
-          <h2 className="text-xl font-semibold text-gray-800">Entrar</h2>
-          <button
-            onClick={closeLogin}
-            className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+    <Transition show={isVisible}>
+      <Dialog onClose={closeLogin} className="relative z-50">
+        <TransitionChild
+          enter="ease-out duration-200"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-150"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-black/20" />
+        </TransitionChild>
+
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <TransitionChild
+            enter="ease-out duration-200"
+            enterFrom="opacity-0 scale-95 translate-y-1"
+            enterTo="opacity-100 scale-100 translate-y-0"
+            leave="ease-in duration-150"
+            leaveFrom="opacity-100 scale-100 translate-y-0"
+            leaveTo="opacity-0 scale-95 translate-y-1"
           >
-            <X size={20} className="text-gray-500" />
-          </button>
+            <DialogPanel className={`relative bg-white rounded-lg shadow-xl ${sizeClasses[size]} w-full max-h-[90vh] overflow-hidden transform`}>
+              <div className="flex items-center justify-between p-4 border-b">
+                <h2 className="text-xl font-semibold text-gray-800">Entrar</h2>
+                <button
+                  onClick={closeLogin}
+                  className="p-1 hover:bg-gray-100 rounded-full transition-colors duration-150"
+                >
+                  <X size={20} className="text-gray-500" />
+                </button>
+              </div>
+              <div className="p-4 overflow-y-auto max-h-[calc(90vh-8rem)]">
+                {children}
+              </div>
+            </DialogPanel>
+          </TransitionChild>
         </div>
-        <div className="p-4 overflow-y-auto max-h-[calc(90vh-8rem)]">
-          {children}
-        </div>
-      </div>
-    </div>
+      </Dialog>
+    </Transition>
   );
 };
 
